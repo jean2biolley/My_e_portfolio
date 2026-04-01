@@ -23,10 +23,11 @@ export default function Home() {
               Jean <br /> <span className="italic font-light">de</span> Biolley
             </h1>
             <p className="text-foreground/75 leading-relaxed max-w-lg text-lg">
-              Master in Business Engineering student at LSM with experience in
-              Financial Analytics. Native trilingual (FR/ES/EN) applying
-              stochastic modeling to derivatives pricing. Aspiring to launch my
-              career as a Trading floor intern from February to June 2027.
+              Master’s student in Business Engineering with an interest in derivatives pricing and stock market dynamics.
+              I am particularly interested in the behavior of volatility across market regimes and in modeling it for option valuation at Alpha Capital Jr.
+              First experience as financial analyst at Apis Asset Management.
+              Native trilingual (FR/ES/EN).
+              Aspiring to launch my career as a sell-side analyst intern from February to June 2027.
             </p>
             <div className="pt-6 flex flex-wrap gap-4">
               <a
@@ -114,7 +115,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-        {/* --- EXPERIENCE SECTION --- */}
+          {/* --- EXPERIENCE SECTION --- */}
         </section>
 
         {/* --- SKILLS SECTION --- */}
@@ -174,31 +175,31 @@ export default function Home() {
               <div className="absolute top-[8%] left-1/2 -translate-x-1/2 text-center text-[#735234] font-sans font-bold text-[17px] w-48 transition-transform hover:scale-105">
                 Teamwork
               </div>
-              
+
               <div className="absolute top-[22%] right-[10%] text-center text-[#735234] font-sans font-bold text-[17px] w-40 transition-transform hover:scale-105">
-                Client <br/> management
+                Client <br /> management
               </div>
-              
+
               <div className="absolute top-1/2 right-2 -translate-y-1/2 text-center text-[#735234] font-sans font-bold text-[17px] w-48 transition-transform hover:scale-105">
-                Excel (VBA, Lookup, <br/> Solver)
+                Excel (VBA, Lookup, <br /> Solver)
               </div>
-              
+
               <div className="absolute bottom-[22%] right-[8%] text-center text-[#735234] font-sans font-bold text-[17px] w-48 transition-transform hover:scale-105">
-                Python, Rstudio, <br/> Bloomberg
+                Python, Rstudio, <br /> Bloomberg
               </div>
-              
+
               <div className="absolute bottom-[8%] left-1/2 -translate-x-1/2 text-center text-[#735234] font-sans font-bold text-[17px] w-48 transition-transform hover:scale-105">
                 4 languages
               </div>
-              
+
               <div className="absolute bottom-[22%] left-[10%] text-center text-[#735234] font-sans font-bold text-[17px] w-40 transition-transform hover:scale-105">
-                Financial <br/> modelling
+                Financial <br /> modelling
               </div>
-              
+
               <div className="absolute top-1/2 left-2 -translate-y-1/2 text-center text-[#735234] font-sans font-bold text-[17px] w-48 transition-transform hover:scale-105">
-                Organized, efficient <br/> under pressure
+                Organized, efficient <br /> under pressure
               </div>
-              
+
               <div className="absolute top-[22%] left-[10%] text-center text-[#735234] font-sans font-bold text-[17px] w-40 transition-transform hover:scale-105">
                 Multicultural
               </div>
@@ -330,7 +331,7 @@ export default function Home() {
                 Open to Opportunities
               </h2>
               <p className="text-white/60 max-w-xl mx-auto">
-                Seeking a Trading floor internship from February to June 2027.
+                Seeking a financial analyst internship from February to June 2027.
                 Available for networking, discussions on derivatives, and analytical challenges.
               </p>
             </div>
