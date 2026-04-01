@@ -19,8 +19,9 @@ export default function Navbar() {
   const navLinks = [
     { name: "Home", href: "#home" },
     { name: "Experience", href: "#experience" },
+    { name: "Core Competencies", href: "#skills" },
     { name: "Journey", href: "#journey" },
-    { name: "Contact", href: "#contact" },
+    { name: "CV", href: "https://github.com/jean2biolley/cv/blob/main/cv_jeandebiolley.pdf", external: true },
   ];
 
   return (
@@ -38,17 +39,19 @@ export default function Navbar() {
             <Link
               key={link.name}
               href={link.href}
+              target={link.external ? "_blank" : undefined}
+              rel={link.external ? "noopener noreferrer" : undefined}
               className="text-sm font-medium text-foreground/80 hover:text-accent transition-colors"
             >
               {link.name}
             </Link>
           ))}
-          <a
+          <Link
             href="#contact"
-            className="px-5 py-2.5 text-sm font-medium text-white bg-foreground hover:bg-accent transition-colors duration-300 rounded-sm"
+            className="bg-black text-white px-6 py-2.5 text-sm font-medium hover:bg-black/80 transition-colors"
           >
             Get in touch
-          </a>
+          </Link>
         </div>
 
         {/* Mobile Nav Toggle */}
@@ -64,12 +67,21 @@ export default function Navbar() {
             <Link
               key={link.name}
               href={link.href}
+              target={link.external ? "_blank" : undefined}
+              rel={link.external ? "noopener noreferrer" : undefined}
               onClick={() => setIsMenuOpen(false)}
               className="text-base font-medium text-foreground/80 hover:text-accent transition-colors"
             >
               {link.name}
             </Link>
           ))}
+          <Link
+            href="#contact"
+            onClick={() => setIsMenuOpen(false)}
+            className="bg-black text-white px-6 py-3 text-base font-medium text-center hover:bg-black/80 transition-colors mt-2"
+          >
+            Get in touch
+          </Link>
         </div>
       )}
     </nav>

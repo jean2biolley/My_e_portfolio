@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ArrowRight, Download, Brain, Code, Network, Trophy } from "lucide-react";
+import { ArrowRight, Download, Brain, Code, Network, Trophy, Compass } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";
@@ -47,16 +47,7 @@ export default function Home() {
           <div className="order-1 md:order-2 flex justify-center md:justify-end relative">
             <div className="absolute inset-0 bg-muted/60 blur-3xl rounded-full translate-x-12 translate-y-12 h-[300px] w-[300px] md:h-[400px] md:w-[400px] -z-10" />
             <div className="relative w-[300px] h-[400px] md:w-[400px] md:h-[500px] overflow-hidden rounded-sm border border-border shadow-2xl bg-muted flex items-center justify-center group overflow-hidden grayscale hover:grayscale-0 transition-all duration-700">
-              {/* Fallback pattern / Placeholder for image */}
-              <div className="absolute inset-0 opacity-10 flex items-center justify-center text-[10rem] font-serif font-black text-foreground select-none">
-                JdB
-              </div>
-              <div className="z-10 px-8 text-center delay-100 transition-opacity">
-                <span className="text-sm uppercase tracking-widest text-foreground/50 border border-foreground/30 px-4 py-2 rounded-full bg-white/50 backdrop-blur-sm shadow-sm group-hover:opacity-0 transition-opacity">
-                  [ Headshot Placeholder ]
-                </span>
-              </div>
-              {/* <Image src="/headshot.jpg" alt="Jean de Biolley" fill className="object-cover" /> */}
+              <Image src="/profile.png" alt="Jean de Biolley" fill className="object-cover transition-transform duration-700 group-hover:scale-105" priority />
             </div>
           </div>
         </section>
@@ -93,14 +84,14 @@ export default function Home() {
                 </div>
                 <div className="mt-12">
                   <button className="w-full py-4 px-6 bg-transparent border-2 border-accent text-accent font-medium hover:bg-accent hover:text-white transition-all duration-300 rounded-sm inline-flex justify-center items-center gap-2 group-hover:shadow-md">
-                    View Volatility Forecast Models <ArrowRight size={16} />
+                    View Volatility Forecast Models (Not yet available)
                   </button>
                 </div>
               </div>
 
               {/* Card 2 */}
               <div className="group bg-white p-10 border border-foreground/10 hover:border-foreground/30 transition-all duration-500 shadow-sm hover:shadow-xl rounded-sm flex flex-col justify-between h-full relative overflow-hidden">
-                 <div className="absolute top-0 right-0 w-0 h-1 bg-foreground transition-all duration-500 group-hover:w-full" />
+                <div className="absolute top-0 right-0 w-0 h-1 bg-foreground transition-all duration-500 group-hover:w-full" />
                 <div>
                   <h3 className="text-foreground/60 text-sm font-semibold tracking-wider uppercase mb-2">Apis Asset Management</h3>
                   <h4 className="text-2xl font-serif font-medium mb-6 text-foreground hover:text-foreground/80 drop-shadow-sm group-hover:translate-x-1 transition-transform">
@@ -118,8 +109,98 @@ export default function Home() {
                   </ul>
                 </div>
                 <div className="mt-12 text-foreground/40 text-sm uppercase tracking-widest text-right italic relative">
-                  <span className="group-hover:text-accent transition-colors duration-300 inline-block group-hover:-translate-x-2">Proof of Impact &rarr;</span>
+                  <span className="group-hover:text-accent transition-colors duration-300 inline-block group-hover:-translate-x-2"></span>
                 </div>
+              </div>
+            </div>
+          </div>
+        {/* --- EXPERIENCE SECTION --- */}
+        </section>
+
+        {/* --- SKILLS SECTION --- */}
+        <section id="skills" className="py-24 md:py-36 bg-background relative overflow-hidden border-b border-border/50">
+          <div className="max-w-6xl mx-auto px-6">
+            <div className="mb-16 md:mb-24 text-center md:text-left">
+              <h2 className="text-4xl font-serif font-medium text-foreground mb-4">
+                Core Competencies
+              </h2>
+              <div className="h-0.5 w-16 bg-accent opacity-50 mx-auto md:mx-0" />
+            </div>
+
+            {/* Mobile View */}
+            <div className="md:hidden space-y-12">
+              <div className="relative p-6 border-l-2 border-accent bg-muted/20">
+                <div className="inline-block px-5 py-2 bg-accent/90 text-white font-medium rounded-full mb-6 shadow-sm text-sm">
+                  Soft skills
+                </div>
+                <ul className="space-y-4 text-foreground/80 font-medium">
+                  <li className="flex items-center gap-3"><span className="w-1.5 h-1.5 rounded-full bg-accent/50" /> Teamwork</li>
+                  <li className="flex items-center gap-3"><span className="w-1.5 h-1.5 rounded-full bg-accent/50" /> Multicultural</li>
+                  <li className="flex items-center gap-3"><span className="w-1.5 h-1.5 rounded-full bg-accent/50" /> Organized, efficient under pressure</li>
+                  <li className="flex items-center gap-3"><span className="w-1.5 h-1.5 rounded-full bg-accent/50" /> Client management</li>
+                </ul>
+              </div>
+              <div className="relative p-6 border-l-2 border-accent bg-muted/20">
+                <div className="inline-block px-5 py-2 bg-accent/90 text-white font-medium rounded-full mb-6 shadow-sm text-sm">
+                  Hard skills
+                </div>
+                <ul className="space-y-4 text-foreground/80 font-medium">
+                  <li className="flex items-center gap-3"><span className="w-1.5 h-1.5 rounded-full bg-accent/50" /> Excel (VBA, Lookup, Solver)</li>
+                  <li className="flex items-center gap-3"><span className="w-1.5 h-1.5 rounded-full bg-accent/50" /> Python, Rstudio, Bloomberg</li>
+                  <li className="flex items-center gap-3"><span className="w-1.5 h-1.5 rounded-full bg-accent/50" /> Financial modelling</li>
+                  <li className="flex items-center gap-3"><span className="w-1.5 h-1.5 rounded-full bg-accent/50" /> 4 languages</li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Desktop Radial View */}
+            <div className="hidden md:block relative w-full h-[560px] max-w-4xl mx-auto mt-12 bg-white rounded-3xl shadow-sm border border-border/40">
+              {/* Badges */}
+              <div className="absolute top-8 left-8 px-8 py-3 bg-accent/90 text-white font-bold font-sans rounded-[2rem] shadow-md text-lg z-10 transition-transform hover:scale-105 hover:bg-accent cursor-default">
+                Soft skills
+              </div>
+              <div className="absolute bottom-8 right-8 px-8 py-3 bg-accent/90 text-white font-bold font-sans rounded-[2rem] shadow-md text-lg z-10 transition-transform hover:scale-105 hover:bg-accent cursor-default">
+                Hard skills
+              </div>
+
+              {/* Center Graphics */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-56 h-56 rounded-full border-[6px] border-accent/20 bg-muted/30 shadow-xl z-0">
+                <Compass className="text-accent/60 w-28 h-28 opacity-80" strokeWidth={1} />
+                <div className="absolute inset-0 rounded-full border-[1.5px] border-accent/40 scale-[1.15]" />
+                <div className="absolute inset-0 rounded-full border-[1px] border-accent/30 scale-[1.3] border-dashed" />
+              </div>
+
+              {/* Surrounding Texts */}
+              <div className="absolute top-[8%] left-1/2 -translate-x-1/2 text-center text-[#735234] font-sans font-bold text-[17px] w-48 transition-transform hover:scale-105">
+                Teamwork
+              </div>
+              
+              <div className="absolute top-[22%] right-[10%] text-center text-[#735234] font-sans font-bold text-[17px] w-40 transition-transform hover:scale-105">
+                Client <br/> management
+              </div>
+              
+              <div className="absolute top-1/2 right-2 -translate-y-1/2 text-center text-[#735234] font-sans font-bold text-[17px] w-48 transition-transform hover:scale-105">
+                Excel (VBA, Lookup, <br/> Solver)
+              </div>
+              
+              <div className="absolute bottom-[22%] right-[8%] text-center text-[#735234] font-sans font-bold text-[17px] w-48 transition-transform hover:scale-105">
+                Python, Rstudio, <br/> Bloomberg
+              </div>
+              
+              <div className="absolute bottom-[8%] left-1/2 -translate-x-1/2 text-center text-[#735234] font-sans font-bold text-[17px] w-48 transition-transform hover:scale-105">
+                4 languages
+              </div>
+              
+              <div className="absolute bottom-[22%] left-[10%] text-center text-[#735234] font-sans font-bold text-[17px] w-40 transition-transform hover:scale-105">
+                Financial <br/> modelling
+              </div>
+              
+              <div className="absolute top-1/2 left-2 -translate-y-1/2 text-center text-[#735234] font-sans font-bold text-[17px] w-48 transition-transform hover:scale-105">
+                Organized, efficient <br/> under pressure
+              </div>
+              
+              <div className="absolute top-[22%] left-[10%] text-center text-[#735234] font-sans font-bold text-[17px] w-40 transition-transform hover:scale-105">
+                Multicultural
               </div>
             </div>
           </div>
@@ -128,7 +209,7 @@ export default function Home() {
         {/* --- JOURNEY SECTION --- */}
         <section id="journey" className="py-24 md:py-36 bg-background relative overflow-hidden">
           <div className="absolute -left-32 top-1/2 w-64 h-64 bg-accent/5 rounded-full blur-3xl -z-10" />
-          
+
           <div className="max-w-6xl mx-auto px-6">
             <div className="mb-16">
               <h2 className="text-4xl font-serif font-medium text-foreground mb-4">
@@ -143,7 +224,7 @@ export default function Home() {
                 <h3 className="text-lg font-medium text-foreground/50 uppercase tracking-widest mb-10 flex items-center gap-3">
                   <Brain className="text-accent" size={20} /> Formal Education
                 </h3>
-                
+
                 <div className="relative border-l border-border/60 ml-3 md:ml-0 space-y-12">
                   <div className="relative pl-8 md:pl-10 group">
                     <div className="absolute -left-[5px] top-1.5 w-[10px] h-[10px] rounded-full bg-accent ring-4 ring-white shadow-sm transition-transform group-hover:scale-150" />
@@ -172,7 +253,7 @@ export default function Home() {
 
               {/* Tools & Leadership */}
               <div className="lg:col-span-5 space-y-16">
-                
+
                 {/* Tech & Tools */}
                 <div>
                   <h3 className="text-lg font-medium text-foreground/50 uppercase tracking-widest mb-8 flex items-center gap-3">
@@ -182,24 +263,35 @@ export default function Home() {
                     {["Python", "R", "Bloomberg Terminal", "AWS", "LaTeX", "Excel Macros / Solver"].map((skill, idx) => (
                       <span
                         key={idx}
-                        className={`px-4 py-2 border text-sm font-medium transition-all duration-300 rounded-sm hover:-translate-y-1 hover:shadow-md ${
-                          skill === "Python" || skill === "Bloomberg Terminal"
-                            ? "bg-foreground text-white border-foreground"
-                            : "bg-white text-foreground/80 border-border hover:border-foreground/30"
-                        }`}
+                        className={`px-4 py-2 border text-sm font-medium transition-all duration-300 rounded-sm hover:-translate-y-1 hover:shadow-md ${skill === "Python" || skill === "Bloomberg Terminal"
+                          ? "bg-foreground text-white border-foreground"
+                          : "bg-white text-foreground/80 border-border hover:border-foreground/30"
+                          }`}
                       >
                         {skill}
                       </span>
                     ))}
                   </div>
-                  
-                  <div className="mt-8 flex items-start gap-4 p-5 bg-muted/30 border border-border/50 rounded-sm transition-colors hover:border-accent/40 hover:bg-muted/50">
-                    <div className="mt-1">
-                      <Trophy className="text-accent" size={24} />
+
+                  <div className="mt-8 space-y-4">
+                    <div className="flex items-start gap-4 p-5 bg-muted/30 border border-border/50 rounded-sm transition-colors hover:border-accent/40 hover:bg-muted/50">
+                      <div className="mt-1">
+                        <Trophy className="text-accent" size={24} />
+                      </div>
+                      <div>
+                        <h4 className="font-serif font-medium text-lg">Bloomberg Market Concepts</h4>
+                        <p className="text-xs text-foreground/60 uppercase tracking-wider mt-1">Certification Completed</p>
+                      </div>
                     </div>
-                    <div>
-                      <h4 className="font-serif font-medium text-lg">Bloomberg Market Concepts</h4>
-                      <p className="text-xs text-foreground/60 uppercase tracking-wider mt-1">Certification Completed</p>
+
+                    <div className="flex items-start gap-4 p-5 bg-muted/30 border border-border/50 rounded-sm transition-colors hover:border-accent/40 hover:bg-muted/50">
+                      <div className="mt-1">
+                        <Trophy className="text-accent" size={24} />
+                      </div>
+                      <div>
+                        <h4 className="font-serif font-medium text-lg">European First Aid Certificate</h4>
+                        <p className="text-xs text-foreground/60 uppercase tracking-wider mt-1">Certification Completed</p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -211,16 +303,16 @@ export default function Home() {
                   </h3>
                   <div className="space-y-6 text-sm">
                     <div className="group border-b border-border/40 pb-4 transition-all hover:bg-muted/20 hover:px-2 rounded-sm -mx-2 px-2 pt-2">
-                       <h4 className="font-medium text-foreground group-hover:text-accent transition-colors">Customer Experience Management</h4>
-                       <p className="text-foreground/60 mt-1">AIESEC — Orchestrated international youth exchange processes.</p>
+                      <h4 className="font-medium text-foreground group-hover:text-accent transition-colors">Customer Experience Management</h4>
+                      <p className="text-foreground/60 mt-1">AIESEC — Orchestrated international youth exchange processes.</p>
                     </div>
                     <div className="group border-b border-border/40 pb-4 transition-all hover:bg-muted/20 hover:px-2 rounded-sm -mx-2 px-2 pt-2">
-                       <h4 className="font-medium text-foreground group-hover:text-accent transition-colors">Scouts d'Europe</h4>
-                       <p className="text-foreground/60 mt-1">5+ years organizing camps, instilling resilience, teamwork, and structured planning in youth.</p>
+                      <h4 className="font-medium text-foreground group-hover:text-accent transition-colors">Scouts d'Europe</h4>
+                      <p className="text-foreground/60 mt-1">5+ years organizing camps, instilling resilience, teamwork, and structured planning in youth.</p>
                     </div>
                     <div className="group pb-2 transition-all hover:bg-muted/20 hover:px-2 rounded-sm -mx-2 px-2 pt-2">
-                       <h4 className="font-medium text-foreground group-hover:text-accent transition-colors">Red Cross Volunteering</h4>
-                       <p className="text-foreground/60 mt-1">Dedicated to active community service and crisis support.</p>
+                      <h4 className="font-medium text-foreground group-hover:text-accent transition-colors">Red Cross Volunteering</h4>
+                      <p className="text-foreground/60 mt-1">Dedicated to active community service and crisis support.</p>
                     </div>
                   </div>
                 </div>
@@ -245,7 +337,7 @@ export default function Home() {
 
             <div className="grid md:grid-cols-5 gap-12 bg-white/5 border border-white/10 p-8 md:p-12 rounded-sm backdrop-blur-sm shadow-2xl relative overflow-hidden">
               <div className="absolute -right-32 -top-32 w-64 h-64 bg-accent/30 rounded-full blur-3xl -z-10" />
-              
+
               <div className="md:col-span-2 space-y-8">
                 <div>
                   <h3 className="text-lg font-serif mb-2">Email Direct</h3>
@@ -260,8 +352,8 @@ export default function Home() {
                   </a>
                 </div>
                 <div className="pt-8">
-                   <p className="text-xs uppercase tracking-widest text-white/30 font-bold mb-4">Location</p>
-                   <p className="text-white/80 font-medium font-serif">Brussels, Belgium</p>
+                  <p className="text-xs uppercase tracking-widest text-white/30 font-bold mb-4">Location</p>
+                  <p className="text-white/80 font-medium font-serif">Brussels, Belgium</p>
                 </div>
               </div>
 
