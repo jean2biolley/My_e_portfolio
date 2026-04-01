@@ -23,9 +23,9 @@ export default function Home() {
               Jean <br /> <span className="italic font-light">de</span> Biolley
             </h1>
             <p className="text-foreground/75 leading-relaxed max-w-lg text-lg">
-              Master’s student in Business Engineering with an interest in derivatives pricing and stock market dynamics.
+              Master's student in Business Engineering with an interest in derivatives pricing and stock market dynamics.
               I am particularly interested in the behavior of volatility across market regimes and in modeling it for option valuation at Alpha Capital Jr.
-              First experience as financial analyst at Apis Asset Management.
+              First experience as a financial analyst at Apis Asset Management.
               Native trilingual (FR/ES/EN).
               Aspiring to launch my career as a sell-side analyst intern from February to June 2027.
             </p>
