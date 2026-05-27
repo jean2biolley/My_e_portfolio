@@ -1,34 +1,10 @@
 "use client"
-import { useState } from "react"
+import { useForm, ValidationError } from '@formspree/react';
 
 export default function ContactForm() {
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [state, handleSubmit] = useForm(process.env.NEXT_PUBLIC_FORMSPREE_KEY || '');
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setStatus("loading");
-    
-    const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData.entries());
-
-    try {
-      // Since formsubmit.co is currently offline globally, we use a highly reliable mailto fallback.
-      // This will open the user's native email client (Gmail, Outlook, etc.) properly formatted.
-      const subject = encodeURIComponent(`Portfolio Inquiry from ${data.name}`);
-      const body = encodeURIComponent(`Contact Details:\nName: ${data.name}\nEmail: ${data.email}\n\nMessage:\n${data.message}`);
-      
-      window.location.href = `mailto:jean2biolley@gmail.com?subject=${subject}&body=${body}`;
-      
-      // We simulate a small delay to show the button loading state before showing success
-      setTimeout(() => {
-        setStatus("success");
-      }, 500);
-    } catch {
-      setStatus("error");
-    }
-  };
-
-  if (status === "success") {
+  if (state.succeeded) {
     return (
       <div className="h-full flex flex-col items-center justify-center text-center space-y-4 p-8 bg-white/5 rounded-sm border border-white/10 animate-in fade-in zoom-in duration-500">
         <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center text-accent mb-4 ring-8 ring-accent/10 shadow-inner">
@@ -36,7 +12,7 @@ export default function ContactForm() {
         </div>
         <h4 className="text-2xl font-serif text-white">Message Received</h4>
         <p className="text-white/60 text-sm">Thank you for reaching out. I will review your message and reply promptly.</p>
-        <button onClick={() => setStatus("idle")} className="mt-6 text-sm underline text-white/40 hover:text-white transition-colors">Send another</button>
+        <button onClick={() => window.location.reload()} className="mt-6 text-sm underline text-white/40 hover:text-white transition-colors">Send another</button>
       </div>
     );
   }
@@ -51,6 +27,7 @@ export default function ContactForm() {
             className="w-full bg-white/5 border-b border-white/20 px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-accent transition-colors focus:bg-white/10"
             placeholder="John Doe"
           />
+          <ValidationError field="name" prefix="Name" errors={state.errors} />
         </div>
         <div className="space-y-2">
           <label htmlFor="email" className="text-xs uppercase tracking-widest text-white/50 block font-medium">Email Address</label>
@@ -59,6 +36,7 @@ export default function ContactForm() {
             className="w-full bg-transparent border-b border-white/20 px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-accent transition-colors focus:bg-white/10"
             placeholder="john@firm.com"
           />
+          <ValidationError field="email" prefix="Email" errors={state.errors} />
         </div>
       </div>
       <div className="space-y-2 pb-4">
@@ -68,15 +46,20 @@ export default function ContactForm() {
           className="w-full bg-transparent border-b border-white/20 px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-accent transition-colors focus:bg-white/10 resize-none"
           placeholder="Discussing derivatives or open roles..."
         ></textarea>
+        <ValidationError field="message" prefix="Message" errors={state.errors} />
       </div>
       <button
         type="submit"
-        disabled={status === "loading"}
+        disabled={state.submitting}
         className="w-full md:w-auto px-8 py-3 bg-accent text-white font-medium hover:bg-white hover:text-foreground transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-md rounded-sm"
       >
-        {status === "loading" ? "Dispatching..." : "Dispatch Message"}
+        {state.submitting ? "Dispatching..." : "Dispatch Message"}
       </button>
-      {status === "error" && <p className="text-red-400 text-sm mt-3 bg-red-950/20 p-3 rounded-sm">Failed to send message. Please verify network and try again.</p>}
+      {state.errors && (
+        <p className="text-red-400 text-sm mt-3 bg-red-950/20 p-3 rounded-sm">
+          Please verify your submission.
+        </p>
+      )}
     </form>
   );
 }
