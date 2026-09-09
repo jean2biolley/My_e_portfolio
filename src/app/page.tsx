@@ -26,7 +26,7 @@ export default function Home() {
               Master's student in Business Engineering with an interest in macro-finance and derivatives pricing.
               I am particularly interested in the behavior of volatility across market regimes and in modeling it for option valuation.
               First experience as a financial analyst at Alpha Capital Jr. Apis Asset Management.
-              Aspiring to launch my career as a financial analyst at the ECB from January 2027.
+              Aspiring to launch my career as a financial analyst from January 2027.
             </p>
             <div className="pt-6 flex flex-wrap gap-4">
               <a
