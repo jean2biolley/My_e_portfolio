@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair" });
 
 export const metadata: Metadata = {
-  title: "Jean de Biolley | Aspiring Sell-Side Analyst",
+  title: "Jean de Biolley | Aspiring Financial Analyst",
   description: "Master in Business Engineering student at LSM with experience in Financial Analytics. Aspiring macro finance analyst.",
 };
 

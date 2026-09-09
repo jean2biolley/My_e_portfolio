@@ -17,7 +17,7 @@ export default function Home() {
         >
           <div className="space-y-6 order-2 md:order-1 z-10">
             <h2 className="text-accent uppercase tracking-[0.2em] font-medium text-sm">
-              From student to sell-side analyst
+              From student to financial analyst
             </h2>
             <h1 className="text-5xl md:text-7xl font-serif font-medium leading-[1.1] text-foreground">
               Jean de Biolley
