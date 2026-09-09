@@ -330,7 +330,7 @@ export default function Home() {
                 Open to Opportunities
               </h2>
               <p className="text-white/60 max-w-xl mx-auto">
-                Seeking a financial analyst internship from February 2027.
+                Seeking a financial analyst internship from January 2027.
                 Available for networking and finance-related discussions.
               </p>
             </div>

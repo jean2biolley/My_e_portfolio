@@ -7,7 +7,7 @@ const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfa
 
 export const metadata: Metadata = {
   title: "Jean de Biolley | Aspiring Sell-Side Analyst",
-  description: "Master in Business Engineering student at LSM with experience in Financial Analytics. Aspiring sell-side analyst.",
+  description: "Master in Business Engineering student at LSM with experience in Financial Analytics. Aspiring macro finance analyst.",
 };
 
 export default function RootLayout({
