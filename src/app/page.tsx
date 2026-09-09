@@ -23,11 +23,10 @@ export default function Home() {
               Jean de Biolley
             </h1>
             <p className="text-foreground/75 leading-relaxed max-w-lg text-lg">
-              Master's student in Business Engineering with an interest in derivatives pricing and stock market dynamics.
-              I am particularly interested in the behavior of volatility across market regimes and in modeling it for option valuation at Alpha Capital Jr.
-              First experience as a financial analyst at Apis Asset Management.
-              Native trilingual (FR/ES/EN).
-              Aspiring to launch my career as a sell-side analyst intern from February to June 2027.
+              Master's student in Business Engineering with an interest in macro-finance and derivatives pricing.
+              I am particularly interested in the behavior of volatility across market regimes and in modeling it for option valuation.
+              First experience as a financial analyst at Alpha Capital Jr. Apis Asset Management.
+              Aspiring to launch my career as a financial analyst at the ECB from January 2027.
             </p>
             <div className="pt-6 flex flex-wrap gap-4">
               <a
