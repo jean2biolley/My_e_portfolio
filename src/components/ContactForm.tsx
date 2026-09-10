@@ -44,7 +44,7 @@ export default function ContactForm() {
         <textarea
           id="message" name="message" required rows={4}
           className="w-full bg-transparent border-b border-white/20 px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-accent transition-colors focus:bg-white/10 resize-none"
-          placeholder="Discussing derivatives or open roles..."
+          placeholder="Anything..."
         ></textarea>
         <ValidationError field="message" prefix="Message" errors={state.errors} />
       </div>
