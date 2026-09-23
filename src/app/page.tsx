@@ -46,7 +46,7 @@ export default function Home() {
 
           <div className="order-1 md:order-2 flex justify-center md:justify-end relative">
             <div className="absolute inset-0 bg-muted/60 blur-3xl rounded-full translate-x-12 translate-y-12 h-[300px] w-[300px] md:h-[400px] md:w-[400px] -z-10" />
-            <div className="relative w-[300px] h-[400px] md:w-[400px] md:h-[500px] overflow-hidden rounded-sm border border-border shadow-2xl bg-muted flex items-center justify-center group overflow-hidden grayscale hover:grayscale-0 transition-all duration-700">
+            <div className="relative w-[300px] h-[400px] md:w-[400px] md:h-[500px] overflow-hidden rounded-sm border border-border shadow-2xl bg-muted flex items-center justify-center group transition-all duration-700">
               <Image src="/profile.png" alt="Jean de Biolley" fill className="object-cover transition-transform duration-700 group-hover:scale-105" priority />
             </div>
           </div>
