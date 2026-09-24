@@ -15,15 +15,13 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
   const navLinks = [
     { name: "Home", href: "#home" },
     { name: "Experience", href: "#experience" },
     { name: "Core Competencies", href: "#skills" },
     { name: "Journey", href: "#journey" },
-    { name: "CV", href: "https://github.com/jean2biolley/cv/blob/main/cv_jeandebiolley.pdf", external: true },
+    { name: "CV", href: "https://jean2biolley.github.io/cv/cv_jeandebiolley.pdf", external: true },
   ];
-
   return (
     <nav
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? "bg-white/90 backdrop-blur-md shadow-sm py-4" : "bg-transparent py-6"}`}
