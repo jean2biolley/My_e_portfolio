@@ -58,7 +58,7 @@ export default function Home() {
           <div className="max-w-6xl mx-auto px-6">
             <div className="mb-16">
               <h2 className="text-4xl font-serif font-medium text-foreground mb-4">
-                Experience & Proof of Work
+                Professional Experience
               </h2>
               <div className="h-0.5 w-16 bg-accent opacity-50" />
             </div>
