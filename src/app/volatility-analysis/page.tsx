@@ -246,9 +246,7 @@ export default function VolatilityAnalysisPage() {
           </h1>
           <div className="h-0.5 w-16 bg-accent opacity-50 mb-5" />
           <p className="text-foreground/70 leading-relaxed text-base">
-            Analyze 1-year realized historical volatility, annualized expected log
-            return, and the 3D implied volatility term-structure across strike
-            prices and option maturities.
+            In derivatives pricing, the Black-Scholes-Merton model assumes constant volatility and no transaction costs. However, in reality, volatility varies across strike prices and option maturities, creating a volatility surface. This tool computes 1-year realized historical volatility, annualized expected log return, and the 3D implied volatility term-structure across strike prices and option maturities.
           </p>
         </div>
 
@@ -284,8 +282,8 @@ export default function VolatilityAnalysisPage() {
                 disabled={loading}
                 onClick={() => handleOptionTypeToggle("call")}
                 className={`px-5 py-2.5 text-xs uppercase tracking-wider font-semibold rounded-sm transition-all duration-200 ${optionType === "call"
-                    ? "bg-accent text-white shadow-sm"
-                    : "bg-transparent text-foreground/70 hover:text-accent"
+                  ? "bg-accent text-white shadow-sm"
+                  : "bg-transparent text-foreground/70 hover:text-accent"
                   } disabled:opacity-50`}
               >
                 Calls
@@ -295,8 +293,8 @@ export default function VolatilityAnalysisPage() {
                 disabled={loading}
                 onClick={() => handleOptionTypeToggle("put")}
                 className={`px-5 py-2.5 text-xs uppercase tracking-wider font-semibold rounded-sm transition-all duration-200 ${optionType === "put"
-                    ? "bg-accent text-white shadow-sm"
-                    : "bg-transparent text-foreground/70 hover:text-accent"
+                  ? "bg-accent text-white shadow-sm"
+                  : "bg-transparent text-foreground/70 hover:text-accent"
                   } disabled:opacity-50`}
               >
                 Puts
@@ -439,8 +437,7 @@ export default function VolatilityAnalysisPage() {
                   </h2>
                   <p className="text-xs text-foreground/60 mt-0.5">
                     Filtered {optionType} options (5% ≤ IV ≤ 120%, strikes within ±30% of
-                    spot) across upcoming expirations. Drag to rotate, scroll to
-                    zoom.
+                    spot) across a range of maturities.
                   </p>
                 </div>
                 <span className="text-xs font-mono uppercase px-3 py-1 bg-muted border border-border rounded-sm text-foreground/70 self-start sm:self-auto">
