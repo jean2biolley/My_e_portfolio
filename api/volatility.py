@@ -7,10 +7,14 @@ import pandas as pd
 import yfinance as yf
 
 
-def build_volatility_payload(ticker_symbol: str) -> dict:
+def build_volatility_payload(ticker_symbol: str, option_type: str = "call") -> dict:
     ticker_clean = ticker_symbol.strip().upper()
     if not ticker_clean:
         raise ValueError("Ticker parameter is required.")
+
+    opt_type_clean = option_type.strip().lower() if option_type else "call"
+    if opt_type_clean not in ("call", "put"):
+        opt_type_clean = "call"
 
     stock = yf.Ticker(ticker_clean)
 
@@ -50,12 +54,12 @@ def build_volatility_payload(ticker_symbol: str) -> dict:
             if time_to_maturity <= 0:
                 continue
 
-            chain = stock.option_chain(exp_str)
-            calls = chain.calls
-            if calls is None or calls.empty:
+            opt = stock.option_chain(exp_str)
+            options_df = opt.puts if opt_type_clean == "put" else opt.calls
+            if options_df is None or options_df.empty:
                 continue
 
-            df = calls[["strike", "impliedVolatility"]].dropna().copy()
+            df = options_df[["strike", "impliedVolatility"]].dropna().copy()
             # Filter out penny/illiquid options (IV < 5% or > 120%)
             df = df[(df["impliedVolatility"] >= 0.05) & (df["impliedVolatility"] <= 1.20)]
             # Filter out strikes too far from the spot price (+/- 30% around spot)
@@ -108,6 +112,7 @@ def build_volatility_payload(ticker_symbol: str) -> dict:
 
     return {
         "ticker": ticker_clean,
+        "optionType": opt_type_clean,
         "lastPrice": round(last_price, 2),
         "historicalVol": round(historical_vol, 6),
         "expectedReturn": round(expected_return, 6),
@@ -123,13 +128,14 @@ class handler(BaseHTTPRequestHandler):
         parsed_url = urlparse(self.path)
         query_params = parse_qs(parsed_url.query)
         ticker = query_params.get("ticker", [""])[0]
+        option_type = query_params.get("optionType", ["call"])[0]
 
         if not ticker or not ticker.strip():
             self._send_json(400, {"error": "Missing required 'ticker' query parameter."})
             return
 
         try:
-            payload = build_volatility_payload(ticker)
+            payload = build_volatility_payload(ticker, option_type)
             self._send_json(200, payload)
         except ValueError as ve:
             self._send_json(400, {"error": str(ve)})
