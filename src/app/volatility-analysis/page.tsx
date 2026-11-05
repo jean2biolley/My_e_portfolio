@@ -7,9 +7,7 @@ import {
   ArrowLeft,
   Search,
   Loader2,
-  TrendingUp,
   Activity,
-  DollarSign,
   AlertCircle,
 } from "lucide-react";
 import Footer from "@/components/Footer";
@@ -343,9 +341,8 @@ export default function VolatilityAnalysisPage() {
               {/* Metric 1: Last Stock Price */}
               <div className="bg-white border border-foreground/10 p-7 rounded-sm shadow-sm relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-1 h-full bg-accent" />
-                <div className="flex items-center justify-between text-foreground/60 text-xs uppercase tracking-widest font-semibold mb-3">
-                  <span>Last Stock Price</span>
-                  <DollarSign size={16} className="text-accent" />
+                <div className="text-foreground/60 text-xs uppercase tracking-widest font-semibold mb-3">
+                  Last Stock Price
                 </div>
                 <div className="text-3xl font-serif font-medium text-foreground">
                   {formatCurrency(data.lastPrice)}
@@ -358,9 +355,8 @@ export default function VolatilityAnalysisPage() {
               {/* Metric 2: Historical Standard Deviation (Annualized) */}
               <div className="bg-white border border-foreground/10 p-7 rounded-sm shadow-sm relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-1 h-full bg-accent" />
-                <div className="flex items-center justify-between text-foreground/60 text-xs uppercase tracking-widest font-semibold mb-3">
-                  <span>Historical Std Dev (Annualized)</span>
-                  <Activity size={16} className="text-accent" />
+                <div className="text-foreground/60 text-xs uppercase tracking-widest font-semibold mb-3">
+                  Historical Std Dev (Annualized)
                 </div>
                 <div className="text-3xl font-serif font-medium text-foreground">
                   {formatPercent(data.historicalVol)}
@@ -373,9 +369,8 @@ export default function VolatilityAnalysisPage() {
               {/* Metric 3: Expected Return (Based on historical data) */}
               <div className="bg-white border border-foreground/10 p-7 rounded-sm shadow-sm relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-1 h-full bg-accent" />
-                <div className="flex items-center justify-between text-foreground/60 text-xs uppercase tracking-widest font-semibold mb-3">
-                  <span>Expected Return (Annualized)</span>
-                  <TrendingUp size={16} className="text-accent" />
+                <div className="text-foreground/60 text-xs uppercase tracking-widest font-semibold mb-3">
+                  Expected Return (Annualized)
                 </div>
                 <div
                   className={`text-3xl font-serif font-medium ${data.expectedReturn >= 0
