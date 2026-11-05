@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight, Download, Brain, Code, Network, Trophy, Compass } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -82,7 +83,13 @@ export default function Home() {
                     </li>
                   </ul>
                 </div>
-                <div className="mt-12">
+                <div className="mt-12 space-y-3">
+                  <Link
+                    href="/volatility-analysis"
+                    className="w-full py-4 px-6 bg-accent text-white font-medium hover:bg-accent-hover transition-all duration-300 rounded-sm inline-flex justify-center items-center gap-2 shadow-sm hover:shadow-md"
+                  >
+                    Volatility Analysis <ArrowRight size={18} />
+                  </Link>
                   <button className="w-full py-4 px-6 bg-transparent border-2 border-accent text-accent font-medium hover:bg-accent hover:text-white transition-all duration-300 rounded-sm inline-flex justify-center items-center gap-2 group-hover:shadow-md">
                     View Volatility Forecast Models (Not yet available)
                   </button>
