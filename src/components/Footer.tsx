@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
         <div>
           <span className="font-serif italic font-bold text-lg text-foreground mb-1 block">JdB.</span>
-          <p className="text-foreground/60 w-full max-w-sm">From student to sell-side analyst</p>
+          <p className="text-foreground/60 w-full max-w-sm">From student to financial analyst</p>
         </div>
 
         <div className="flex gap-6 items-center flex-wrap">

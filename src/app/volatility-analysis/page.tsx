@@ -223,7 +223,7 @@ export default function VolatilityAnalysisPage() {
             <ArrowLeft size={16} /> Back to Portfolio
           </Link>
           <span className="text-xs uppercase tracking-[0.2em] text-accent font-semibold">
-            Alpha Capital Jr. • Quantitative Tool
+            In collaboration with Alpha Capital Jr.
           </span>
         </div>
       </header>
