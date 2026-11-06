@@ -18,6 +18,11 @@ interface SurfaceData {
   z: number[][];
 }
 
+interface SmileSlice {
+  strikes: number[];
+  impliedVolatilities: number[];
+}
+
 interface VolatilityResponse {
   ticker?: string;
   optionType?: "call" | "put";
@@ -25,6 +30,7 @@ interface VolatilityResponse {
   historicalVol: number;
   expectedReturn: number;
   surface?: SurfaceData;
+  smileData?: Record<string, SmileSlice>;
   x?: number[];
   y?: number[];
   z?: number[][];
@@ -36,10 +42,12 @@ export default function VolatilityAnalysisPage() {
   const [activeTicker, setActiveTicker] = useState<string>("");
   const [optionType, setOptionType] = useState<"call" | "put">("call");
   const [activeOptionType, setActiveOptionType] = useState<"call" | "put">("call");
+  const [selectedExpiration, setSelectedExpiration] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [data, setData] = useState<VolatilityResponse | null>(null);
   const plotContainerRef = useRef<HTMLDivElement | null>(null);
+  const smilePlotContainerRef = useRef<HTMLDivElement | null>(null);
 
   const fetchVolatilityData = async (
     symbol: string,
@@ -69,6 +77,8 @@ export default function VolatilityAnalysisPage() {
       setData(result);
       setActiveTicker(result.ticker || cleanTicker);
       setActiveOptionType(result.optionType || selectedOptionType);
+      const expirations = result.smileData ? Object.keys(result.smileData) : [];
+      setSelectedExpiration(expirations[0] || "");
     } catch (err: unknown) {
       const message =
         err instanceof Error
@@ -204,6 +214,141 @@ export default function VolatilityAnalysisPage() {
         .catch(() => { });
     };
   }, [data, activeTicker, activeOptionType]);
+
+  // Render interactive 2D Volatility Smile Plot when data or selectedExpiration updates
+  useEffect(() => {
+    if (
+      !data ||
+      !data.smileData ||
+      !selectedExpiration ||
+      !smilePlotContainerRef.current
+    ) {
+      return;
+    }
+
+    const slice = data.smileData[selectedExpiration];
+    if (
+      !slice ||
+      !slice.strikes.length ||
+      !slice.impliedVolatilities.length
+    ) {
+      return;
+    }
+
+    let isMounted = true;
+    const container = smilePlotContainerRef.current;
+
+    import("plotly.js-dist-min").then((PlotlyModule) => {
+      if (!isMounted || !container) return;
+      const Plotly = PlotlyModule.default || PlotlyModule;
+
+      const smileTrace = {
+        type: "scatter" as const,
+        mode: "lines+markers" as const,
+        name: "Implied Volatility",
+        x: slice.strikes,
+        y: slice.impliedVolatilities,
+        line: {
+          color: "#4A3018",
+          width: 2.5,
+          shape: "spline" as const,
+        },
+        marker: {
+          color: "#4A3018",
+          size: 7,
+          line: {
+            color: "#FFFFFF",
+            width: 1.5,
+          },
+        },
+        hovertemplate:
+          "<b>Strike:</b> $%{x:.2f}<br>" +
+          "<b>Implied Vol:</b> %{y:.2%}<extra></extra>",
+      } as unknown as Plotly.Data;
+
+      const layout: Partial<Plotly.Layout> = {
+        autosize: true,
+        paper_bgcolor: "rgba(0,0,0,0)",
+        plot_bgcolor: "#fafafa",
+        margin: { l: 65, r: 30, b: 60, t: 55 },
+        title: {
+          text: `Volatility Smile for ${activeTicker} (${activeOptionType === "put" ? "Puts" : "Calls"}) — Expires ${selectedExpiration}`,
+          font: {
+            family: "Playfair Display, Georgia, serif",
+            size: 18,
+            color: "#1F1F1F",
+          },
+        },
+        xaxis: {
+          title: {
+            text: "Strike Price ($)",
+            font: { family: "Inter, sans-serif", size: 12, color: "#1F1F1F" },
+          },
+          tickprefix: "$",
+          gridcolor: "#e5e5e5",
+          zerolinecolor: "#e5e5e5",
+        },
+        yaxis: {
+          title: {
+            text: "Implied Volatility",
+            font: { family: "Inter, sans-serif", size: 12, color: "#1F1F1F" },
+          },
+          tickformat: ".0%",
+          gridcolor: "#e5e5e5",
+          zerolinecolor: "#e5e5e5",
+        },
+        shapes: [
+          {
+            type: "line",
+            x0: data.lastPrice,
+            x1: data.lastPrice,
+            y0: 0,
+            y1: 1,
+            yref: "paper",
+            line: {
+              color: "#8c5c32",
+              width: 1.5,
+              dash: "dot",
+            },
+          },
+        ],
+        annotations: [
+          {
+            x: data.lastPrice,
+            y: 1,
+            yref: "paper",
+            text: `Spot ($${data.lastPrice.toFixed(2)})`,
+            showarrow: false,
+            yanchor: "bottom",
+            font: {
+              family: "Inter, sans-serif",
+              size: 11,
+              color: "#4A3018",
+            },
+          },
+        ],
+      };
+
+      const config: Partial<Plotly.Config> = {
+        responsive: true,
+        displaylogo: false,
+      };
+
+      Plotly.newPlot(container, [smileTrace], layout, config);
+    });
+
+    return () => {
+      isMounted = false;
+      import("plotly.js-dist-min")
+        .then((PlotlyModule) => {
+          const Plotly = PlotlyModule.default || PlotlyModule;
+          if (container) {
+            Plotly.purge(container);
+          }
+        })
+        .catch(() => { });
+    };
+  }, [data, selectedExpiration, activeTicker, activeOptionType]);
 
   // Formatters
   const formatCurrency = (val: number) =>
@@ -445,6 +590,54 @@ export default function VolatilityAnalysisPage() {
                 className="w-full h-[560px] md:h-[640px]"
               />
             </div>
+
+            {/* Subtle Visual Divider */}
+            {data.smileData && Object.keys(data.smileData).length > 0 && (
+              <>
+                <div className="border-t border-border/70 my-2" />
+
+                {/* 2D Volatility Smile Section */}
+                <div className="bg-white border border-foreground/10 rounded-sm shadow-sm p-4 md:p-6">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 mb-4 border-b border-border/60">
+                    <div>
+                      <h2 className="text-xl font-serif font-medium text-foreground">
+                        2D Volatility Smile
+                      </h2>
+                      <p className="text-xs text-foreground/60 mt-0.5">
+                        Cross-sectional implied volatility skew across strike prices
+                        for a single option expiration date.
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-3 self-start sm:self-auto">
+                      <label
+                        htmlFor="expiration-select"
+                        className="text-xs uppercase tracking-wider font-semibold text-foreground/60 whitespace-nowrap"
+                      >
+                        Expiration:
+                      </label>
+                      <select
+                        id="expiration-select"
+                        value={selectedExpiration}
+                        onChange={(e) => setSelectedExpiration(e.target.value)}
+                        className="px-3.5 py-2 bg-muted/40 border border-border focus:border-accent focus:outline-none text-foreground font-mono text-xs rounded-sm transition-colors cursor-pointer"
+                      >
+                        {Object.keys(data.smileData).map((expDate) => (
+                          <option key={expDate} value={expDate}>
+                            {expDate}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div
+                    ref={smilePlotContainerRef}
+                    className="w-full h-[420px] md:h-[480px]"
+                  />
+                </div>
+              </>
+            )}
           </div>
         )}
 

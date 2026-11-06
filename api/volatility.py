@@ -44,6 +44,7 @@ def build_volatility_payload(ticker_symbol: str, option_type: str = "call") -> d
 
     curves = []
     all_filtered_strikes = []
+    smile_data = {}
 
     for exp_str in selected_expirations:
         try:
@@ -74,6 +75,10 @@ def build_volatility_payload(ticker_symbol: str, option_type: str = "call") -> d
 
             curves.append((float(round(time_to_maturity, 4)), strikes, ivs))
             all_filtered_strikes.extend(strikes.tolist())
+            smile_data[exp_str] = {
+                "strikes": [round(float(s), 2) for s in strikes],
+                "impliedVolatilities": [round(float(iv), 6) for iv in ivs],
+            }
         except Exception:
             continue
 
@@ -117,6 +122,7 @@ def build_volatility_payload(ticker_symbol: str, option_type: str = "call") -> d
         "historicalVol": round(historical_vol, 6),
         "expectedReturn": round(expected_return, 6),
         "surface": surface_data,
+        "smileData": smile_data,
         "x": x_list,
         "y": y_grid,
         "z": z_grid,
