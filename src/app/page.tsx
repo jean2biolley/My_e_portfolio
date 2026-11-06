@@ -306,20 +306,29 @@ export default function Home() {
                 {/* Leadership */}
                 <div>
                   <h3 className="text-lg font-medium text-foreground/50 uppercase tracking-widest mb-8 flex items-center gap-3">
-                    <Network className="text-accent" size={20} /> Leadership & Character
+                    <Network className="text-accent" size={20} /> Leadership & Hobbies
                   </h3>
                   <div className="space-y-6 text-sm">
                     <div className="group border-b border-border/40 pb-4 transition-all hover:bg-muted/20 hover:px-2 rounded-sm -mx-2 px-2 pt-2">
-                      <h4 className="font-medium text-foreground group-hover:text-accent transition-colors">Customer Experience Management</h4>
-                      <p className="text-foreground/60 mt-1">AIESEC — Orchestrated international youth exchange processes.</p>
+                      <h4 className="font-medium text-foreground group-hover:text-accent transition-colors">Theatre — Compagnons de la Toison d'or</h4>
+                      <p className="text-foreground/60 mt-1">Audience of 300 people on average.</p>
+                    </div>
+                    <div className="group border-b border-border/40 pb-4 transition-all hover:bg-muted/20 hover:px-2 rounded-sm -mx-2 px-2 pt-2">
+                      <h4 className="font-medium text-foreground group-hover:text-accent transition-colors"> Client Management</h4>
+                      <p className="text-foreground/60 mt-1">AIESEC: Organized international volunteering and internship experiences.</p>
                     </div>
                     <div className="group border-b border-border/40 pb-4 transition-all hover:bg-muted/20 hover:px-2 rounded-sm -mx-2 px-2 pt-2">
                       <h4 className="font-medium text-foreground group-hover:text-accent transition-colors">Scouts d'Europe</h4>
-                      <p className="text-foreground/60 mt-1">5+ years organizing camps, instilling resilience, teamwork, and structured planning in youth.</p>
+                      <p className="text-foreground/60 mt-1">5 years as a youth group leader.</p>
+                    </div>
+                    <div className="group border-b border-border/40 pb-4 transition-all hover:bg-muted/20 hover:px-2 rounded-sm -mx-2 px-2 pt-2">
+                      <h4 className="font-medium text-foreground group-hover:text-accent transition-colors">Red Cross Volunteering</h4>
+                      <p className="text-foreground/60 mt-1">Volunteering in providing support for disadvantaged individuals.</p>
                     </div>
                     <div className="group pb-2 transition-all hover:bg-muted/20 hover:px-2 rounded-sm -mx-2 px-2 pt-2">
-                      <h4 className="font-medium text-foreground group-hover:text-accent transition-colors">Red Cross Volunteering</h4>
-                      <p className="text-foreground/60 mt-1">Dedicated to active community service and crisis support.</p>
+                      <h4 className="font-medium text-foreground group-hover:text-accent transition-colors">Sports</h4>
+                      <p className="text-foreground/60 mt-1">Running. 20km of Brussels in 2023, 2024 and 2026.</p>
+                      <p className="text-foreground/60 mt-4">Tennis and Golf</p>
                     </div>
                   </div>
                 </div>
