@@ -35,6 +35,7 @@ export default function VolatilityAnalysisPage() {
   const [ticker, setTicker] = useState<string>("AAPL");
   const [activeTicker, setActiveTicker] = useState<string>("");
   const [optionType, setOptionType] = useState<"call" | "put">("call");
+  const [activeOptionType, setActiveOptionType] = useState<"call" | "put">("call");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [data, setData] = useState<VolatilityResponse | null>(null);
@@ -67,6 +68,7 @@ export default function VolatilityAnalysisPage() {
 
       setData(result);
       setActiveTicker(result.ticker || cleanTicker);
+      setActiveOptionType(result.optionType || selectedOptionType);
     } catch (err: unknown) {
       const message =
         err instanceof Error
@@ -81,13 +83,6 @@ export default function VolatilityAnalysisPage() {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     fetchVolatilityData(ticker, optionType);
-  };
-
-  const handleOptionTypeToggle = (newType: "call" | "put") => {
-    setOptionType(newType);
-    if (ticker.trim()) {
-      fetchVolatilityData(ticker, newType);
-    }
   };
 
   // Render interactive 3D Surface Plot with Plotly.js when data updates
@@ -152,7 +147,7 @@ export default function VolatilityAnalysisPage() {
         plot_bgcolor: "rgba(0,0,0,0)",
         margin: { l: 10, r: 10, b: 10, t: 40 },
         title: {
-          text: `${activeTicker} Implied Volatility Surface (${optionType === "put" ? "Puts" : "Calls"})`,
+          text: `${activeTicker} Implied Volatility Surface (${activeOptionType === "put" ? "Puts" : "Calls"})`,
           font: {
             family: "Playfair Display, Georgia, serif",
             size: 18,
@@ -208,7 +203,7 @@ export default function VolatilityAnalysisPage() {
         })
         .catch(() => { });
     };
-  }, [data, activeTicker, optionType]);
+  }, [data, activeTicker, activeOptionType]);
 
   // Formatters
   const formatCurrency = (val: number) =>
@@ -280,7 +275,7 @@ export default function VolatilityAnalysisPage() {
               <button
                 type="button"
                 disabled={loading}
-                onClick={() => handleOptionTypeToggle("call")}
+                onClick={() => setOptionType("call")}
                 className={`px-5 py-2.5 text-xs uppercase tracking-wider font-semibold rounded-sm transition-all duration-200 ${optionType === "call"
                   ? "bg-accent text-white shadow-sm"
                   : "bg-transparent text-foreground/70 hover:text-accent"
@@ -291,7 +286,7 @@ export default function VolatilityAnalysisPage() {
               <button
                 type="button"
                 disabled={loading}
-                onClick={() => handleOptionTypeToggle("put")}
+                onClick={() => setOptionType("put")}
                 className={`px-5 py-2.5 text-xs uppercase tracking-wider font-semibold rounded-sm transition-all duration-200 ${optionType === "put"
                   ? "bg-accent text-white shadow-sm"
                   : "bg-transparent text-foreground/70 hover:text-accent"
@@ -436,12 +431,12 @@ export default function VolatilityAnalysisPage() {
                     3D Implied Volatility Surface
                   </h2>
                   <p className="text-xs text-foreground/60 mt-0.5">
-                    Filtered {optionType} options (5% ≤ IV ≤ 120%, strikes within ±30% of
+                    Filtered {activeOptionType} options (5% ≤ IV ≤ 120%, strikes within ±30% of
                     spot) across a range of maturities.
                   </p>
                 </div>
                 <span className="text-xs font-mono uppercase px-3 py-1 bg-muted border border-border rounded-sm text-foreground/70 self-start sm:self-auto">
-                  Ticker: {activeTicker} • {optionType === "put" ? "Puts" : "Calls"}
+                  Ticker: {activeTicker} • {activeOptionType === "put" ? "Puts" : "Calls"}
                 </span>
               </div>
 
