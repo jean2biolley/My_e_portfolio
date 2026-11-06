@@ -9,6 +9,7 @@ import {
   Loader2,
   Activity,
   AlertCircle,
+  Info,
 } from "lucide-react";
 import Footer from "@/components/Footer";
 
@@ -16,6 +17,7 @@ interface SurfaceData {
   x: number[];
   y: number[];
   z: number[][];
+  z_vega?: number[][];
 }
 
 interface SmileSlice {
@@ -34,6 +36,7 @@ interface VolatilityResponse {
   x?: number[];
   y?: number[];
   z?: number[][];
+  z_vega?: number[][];
   error?: string;
 }
 
@@ -42,6 +45,7 @@ export default function VolatilityAnalysisPage() {
   const [activeTicker, setActiveTicker] = useState<string>("");
   const [optionType, setOptionType] = useState<"call" | "put">("call");
   const [activeOptionType, setActiveOptionType] = useState<"call" | "put">("call");
+  const [surfaceView, setSurfaceView] = useState<"IV" | "Vega">("IV");
   const [selectedExpiration, setSelectedExpiration] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -95,7 +99,7 @@ export default function VolatilityAnalysisPage() {
     fetchVolatilityData(ticker, optionType);
   };
 
-  // Render interactive 3D Surface Plot with Plotly.js when data updates
+  // Render interactive 3D Surface Plot with Plotly.js when data or surfaceView updates
   useEffect(() => {
     if (!data || !plotContainerRef.current) return;
 
@@ -103,9 +107,15 @@ export default function VolatilityAnalysisPage() {
       x: data.x || [],
       y: data.y || [],
       z: data.z || [],
+      z_vega: data.z_vega || [],
     };
 
-    if (!surface.x.length || !surface.y.length || !surface.z.length) return;
+    const isVega = surfaceView === "Vega";
+    const activeZ = isVega
+      ? surface.z_vega || data.z_vega || []
+      : surface.z || data.z || [];
+
+    if (!surface.x.length || !surface.y.length || !activeZ.length) return;
 
     let isMounted = true;
     const container = plotContainerRef.current;
@@ -126,14 +136,15 @@ export default function VolatilityAnalysisPage() {
         type: "surface" as const,
         x: surface.x,
         y: surface.y,
-        z: surface.z,
+        z: activeZ,
         colorscale,
         colorbar: {
           title: {
-            text: "Implied Vol",
+            text: isVega ? "Vega ($)" : "Implied Vol",
             font: { family: "Inter, sans-serif", size: 12, color: "#1F1F1F" },
           },
-          tickformat: ".0%",
+          tickprefix: isVega ? "$" : undefined,
+          tickformat: isVega ? ".2f" : ".0%",
           thickness: 16,
           len: 0.75,
         },
@@ -145,11 +156,19 @@ export default function VolatilityAnalysisPage() {
             project: { z: true },
           },
         },
-        hovertemplate:
-          "<b>Strike (X):</b> $%{x:.2f}<br>" +
-          "<b>Maturity (Y):</b> %{y:.2f} yrs<br>" +
-          "<b>Implied Vol (Z):</b> %{z:.2%}<extra></extra>",
+        hovertemplate: isVega
+          ? "<b>Strike (X):</b> $%{x:.2f}<br>" +
+            "<b>Maturity (Y):</b> %{y:.2f} yrs<br>" +
+            "<b>Vega (Z):</b> $%{z:.4f}<extra></extra>"
+          : "<b>Strike (X):</b> $%{x:.2f}<br>" +
+            "<b>Maturity (Y):</b> %{y:.2f} yrs<br>" +
+            "<b>Implied Vol (Z):</b> %{z:.2%}<extra></extra>",
       } as unknown as Plotly.Data;
+
+      const optionLabel = activeOptionType === "put" ? "Puts" : "Calls";
+      const plotTitle = isVega
+        ? `${activeTicker} Vega Surface (${optionLabel})`
+        : `${activeTicker} Implied Volatility Surface (${optionLabel})`;
 
       const layout: Partial<Plotly.Layout> = {
         autosize: true,
@@ -157,7 +176,7 @@ export default function VolatilityAnalysisPage() {
         plot_bgcolor: "rgba(0,0,0,0)",
         margin: { l: 10, r: 10, b: 10, t: 40 },
         title: {
-          text: `${activeTicker} Implied Volatility Surface (${activeOptionType === "put" ? "Puts" : "Calls"})`,
+          text: plotTitle,
           font: {
             family: "Playfair Display, Georgia, serif",
             size: 18,
@@ -180,8 +199,11 @@ export default function VolatilityAnalysisPage() {
             backgroundcolor: "#fafafa",
           },
           zaxis: {
-            title: { text: "Implied Volatility" },
-            tickformat: ".0%",
+            title: {
+              text: isVega ? "Vega ($ per 1% IV)" : "Implied Volatility",
+            },
+            tickprefix: isVega ? "$" : undefined,
+            tickformat: isVega ? ".2f" : ".0%",
             gridcolor: "#e5e5e5",
             zerolinecolor: "#e5e5e5",
             showbackground: true,
@@ -213,7 +235,7 @@ export default function VolatilityAnalysisPage() {
         })
         .catch(() => { });
     };
-  }, [data, activeTicker, activeOptionType]);
+  }, [data, activeTicker, activeOptionType, surfaceView]);
 
   // Render interactive 2D Volatility Smile Plot when data or selectedExpiration updates
   useEffect(() => {
@@ -568,21 +590,71 @@ export default function VolatilityAnalysisPage() {
               </div>
             </div>
 
-            {/* 3D Implied Volatility Surface Plot Container */}
+            {/* 3D Implied Volatility / Vega Surface Plot Container */}
             <div className="bg-white border border-foreground/10 rounded-sm shadow-sm p-4 md:p-6">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 mb-2 border-b border-border/60">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 mb-2 border-b border-border/60">
                 <div>
                   <h2 className="text-xl font-serif font-medium text-foreground">
-                    3D Implied Volatility Surface
+                    {surfaceView === "Vega"
+                      ? "3D Vega Surface"
+                      : "3D Implied Volatility Surface"}
                   </h2>
                   <p className="text-xs text-foreground/60 mt-0.5">
-                    Filtered {activeOptionType} options (5% ≤ IV ≤ 120%, strikes within ±30% of
-                    spot) across a range of maturities.
+                    {surfaceView === "Vega"
+                      ? `Black-Scholes option Vega ($ per 1% IV change, r = 4.5%) across strike prices and maturities for ${activeOptionType} options.`
+                      : `Filtered ${activeOptionType} options (5% ≤ IV ≤ 120%, strikes within ±30% of spot) across a range of maturities.`}
                   </p>
                 </div>
-                <span className="text-xs font-mono uppercase px-3 py-1 bg-muted border border-border rounded-sm text-foreground/70 self-start sm:self-auto">
-                  Ticker: {activeTicker} • {activeOptionType === "put" ? "Puts" : "Calls"}
-                </span>
+
+                <div className="flex flex-wrap items-center gap-3 self-start md:self-auto">
+                  {/* Implied Volatility / Vega Toggle Group */}
+                  <div
+                    className="inline-flex items-center rounded-sm border border-border bg-muted/40 p-1"
+                    role="group"
+                    aria-label="3D Surface View Toggle"
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setSurfaceView("IV")}
+                      className={`px-3.5 py-1.5 text-xs uppercase tracking-wider font-semibold rounded-sm transition-all duration-200 ${
+                        surfaceView === "IV"
+                          ? "bg-accent text-white shadow-sm"
+                          : "bg-transparent text-foreground/70 hover:text-accent"
+                      }`}
+                    >
+                      Implied Volatility
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setSurfaceView("Vega")}
+                      className={`px-3.5 py-1.5 text-xs uppercase tracking-wider font-semibold rounded-sm transition-all duration-200 ${
+                        surfaceView === "Vega"
+                          ? "bg-accent text-white shadow-sm"
+                          : "bg-transparent text-foreground/70 hover:text-accent"
+                      }`}
+                    >
+                      Vega
+                    </button>
+
+                    {/* Vega Info Tooltip */}
+                    <div className="relative group flex items-center px-1.5">
+                      <span
+                        tabIndex={0}
+                        aria-label="Vega explanation"
+                        className="inline-flex items-center justify-center text-foreground/50 hover:text-accent focus:text-accent cursor-help transition-colors"
+                      >
+                        <Info size={15} />
+                      </span>
+                      <div className="pointer-events-none absolute bottom-full right-0 mb-2 w-64 p-2.5 bg-foreground text-white text-xs leading-relaxed rounded-sm shadow-lg opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-200 z-30">
+                        Vega measures an option&apos;s price sensitivity to a 1% change in implied volatility.
+                      </div>
+                    </div>
+                  </div>
+
+                  <span className="text-xs font-mono uppercase px-3 py-1.5 bg-muted border border-border rounded-sm text-foreground/70">
+                    Ticker: {activeTicker} • {activeOptionType === "put" ? "Puts" : "Calls"}
+                  </span>
+                </div>
               </div>
 
               <div

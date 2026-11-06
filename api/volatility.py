@@ -7,6 +7,21 @@ import pandas as pd
 import yfinance as yf
 
 
+def calculate_bs_vega(S: float, K: np.ndarray, T: float, sigma: np.ndarray, r: float = 0.045) -> np.ndarray:
+    """
+    Calculate Black-Scholes Vega (dollar change per 1% change in Implied Volatility).
+    Vega = (S * N'(d1) * sqrt(T)) / 100
+    where d1 = (ln(S / K) + (r + 0.5 * sigma^2) * T) / (sigma * sqrt(T))
+    """
+    T_safe = max(float(T), 1e-6)
+    sigma_safe = np.maximum(sigma, 1e-6)
+    sqrt_T = np.sqrt(T_safe)
+    d1 = (np.log(S / K) + (r + 0.5 * sigma_safe ** 2) * T_safe) / (sigma_safe * sqrt_T)
+    n_prime_d1 = (1.0 / np.sqrt(2.0 * np.pi)) * np.exp(-0.5 * d1 ** 2)
+    vega = (S * n_prime_d1 * sqrt_T) / 100.0
+    return vega
+
+
 def build_volatility_payload(ticker_symbol: str, option_type: str = "call") -> dict:
     ticker_clean = ticker_symbol.strip().upper()
     if not ticker_clean:
@@ -101,11 +116,14 @@ def build_volatility_payload(ticker_symbol: str, option_type: str = "call") -> d
     x_grid = np.linspace(min_strike, max_strike, num_strikes)
     y_grid = []
     z_grid = []
+    z_vega_grid = []
 
     for maturity, strikes, ivs in curves:
         interpolated_iv = np.interp(x_grid, strikes, ivs)
+        vega_row = calculate_bs_vega(last_price, x_grid, maturity, interpolated_iv, r=0.045)
         y_grid.append(maturity)
         z_grid.append([round(float(val), 6) for val in interpolated_iv])
+        z_vega_grid.append([round(float(val), 6) for val in vega_row])
 
     x_list = [round(float(val), 2) for val in x_grid]
 
@@ -113,6 +131,7 @@ def build_volatility_payload(ticker_symbol: str, option_type: str = "call") -> d
         "x": x_list,
         "y": y_grid,
         "z": z_grid,
+        "z_vega": z_vega_grid,
     }
 
     return {
@@ -126,6 +145,7 @@ def build_volatility_payload(ticker_symbol: str, option_type: str = "call") -> d
         "x": x_list,
         "y": y_grid,
         "z": z_grid,
+        "z_vega": z_vega_grid,
     }
 
 
